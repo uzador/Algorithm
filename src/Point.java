@@ -129,13 +129,13 @@ public class Point implements Comparable<Point> {
         public int compare(Point p, Point q) {
             double slope1 = slopeTo(p);
             double slope2 = slopeTo(q);
-            if (slope1 < slope2) {
-                return -1;
-            } else if (slope1 > slope2) {
-                return 1;
-            } else {
+            if (slope1 == slope2) {
                 return 0;
             }
+            if (slope1 < slope2) {
+                return -1;
+            }
+            return 1;
         }
     }
 }

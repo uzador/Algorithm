@@ -17,24 +17,12 @@ public class BruteCollinearPoints {
         Point[] copy = Arrays.copyOf(points, points.length);
         Arrays.sort(copy);
 
-        Point p, q, r, s;
-        double slopePQ, slopePR, slopePS;
-        for (int i = 0; i < copy.length; i++) {
-            for (int j = i + 1; j < copy.length; j++) {
-                if (copy[i].compareTo(copy[j]) == 0) {
-                    continue;
-                }
-                for (int k = j + 1; k < copy.length; k++) {
-                    if (copy[i].compareTo(copy[k]) == 0 || copy[j].compareTo(copy[k]) == 0) {
-                        continue;
-                    } else if (copy[i].slopeTo(copy[j]) !=  copy[i].slopeTo(copy[k])) {
-                        continue;
-                    }
+        for (int i = 0; i < copy.length - 3; i++) {
+            for (int j = i + 1; j < copy.length - 2; j++) {
+                for (int k = j + 1; k < copy.length - 1; k++) {
                     for (int l = k + 1; l < copy.length; l++) {
-                        if (copy[i].compareTo(copy[k]) == 0 || copy[j].compareTo(copy[k]) == 0 || copy[k].compareTo(copy[k]) == 0) {
-                            continue;
-                        } else if (copy[i].slopeTo(copy[k]) ==  copy[i].slopeTo(copy[k])) {
-                            found.add(new LineSegment(copy[i], copy[k]));
+                        if (BruteCollinearPoints.isCollinear(copy[i], copy[j], copy[k], copy[l])) {
+                            found.add(new LineSegment(copy[i], copy[l]));
                         }
                     }
                 }
@@ -42,6 +30,13 @@ public class BruteCollinearPoints {
         }
 
         segments = found.toArray(new LineSegment[found.size()]);
+    }
+
+    private static boolean isCollinear(Point a, Point b, Point c, Point d) {
+        if (a.slopeTo(b) == a.slopeTo(c))
+            return (a.slopeTo(b) == a.slopeTo(d));
+        else
+            return false;
     }
 
     public static void main(String[] args) {
@@ -88,7 +83,6 @@ public class BruteCollinearPoints {
             if (points[i - 1].compareTo(points[i]) == 0) {
                 throw new IllegalArgumentException("There are a repeated point");
             }
-            ;
         }
     }
 
